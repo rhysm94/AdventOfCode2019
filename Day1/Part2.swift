@@ -5,7 +5,7 @@ func fuelRequirement(mass: Int) -> Int {
 	guard requirement >= 0 else {
 		return 0
 	}
-	
+
 	return requirement + fuelRequirement(mass: requirement)
 }
 
