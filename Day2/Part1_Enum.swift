@@ -28,7 +28,15 @@ enum VMState {
 	case operating(data: [Int], pointer: Int = 0)
 	case halted(data: [Int])
 	
-	func processInstruction() -> VMState {
+	func process() -> VMState {
+		if case .halted = self {
+			return self
+		}
+		
+		return processInstruction().process()
+	}
+	
+	private func processInstruction() -> VMState {
 		switch self {
 			case let .operating(data, pointer):
 				let instruction = Instruction(data: data, pointer: pointer)
@@ -59,13 +67,5 @@ enum VMState {
 	}
 }
 
-var state = VMState.operating(data: [1,0,0,0,99])
-
-repeat {
-	state = state.processInstruction()
-	if case .halted = state {
-		break
-	}
-} while true
-
-print(state.getResult())
+let endState = VMState.operating(data: input).process()
+print(endState.getResult())
