@@ -67,5 +67,28 @@ enum VMState {
 	}
 }
 
-let endState = VMState.operating(data: input).process()
-print(endState.getResult())
+func partOne() {
+	let endState = VMState.operating(data: input).process()
+	print("Part 1: \(endState.getResult())")
+}
+
+func partTwo() {
+	for noun in 0 ..< 100 {
+		for verb in 0 ..< 100 {
+			var newMemory = input
+			newMemory[1] = noun
+			newMemory[2] = verb
+			
+			let endState = VMState.operating(data: newMemory).process()
+			let result = endState.getResult()
+			
+			if result == 19690720 {
+				print("Part 2: Noun: \(noun), Verb: \(verb)")
+				return
+			}
+		}
+	}
+}
+
+partOne()
+partTwo()
